@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# The queue will need to change to access all of Stampede2's resources,
+# which means the user will want to change the annex name, as well.
+QUEUE="normal"
+
+# This should be user-selectable.
+TIME="01:00:00"
+
+# This should be user-selectable.
+ANNEXNAME=`whoami`'@Stampede2-'${QUEUE}
+
+# If the queue changes, it makes sense to change this, as well.
+# No real reason to let the user change it.
+TARGET=stampede2-${QUEUE}.slurm
+
+# We'll want the ability to change this at some point, but for now we
+# can assume only one user for this annex.
+STARTEXTRA='Owner == \"'`whoami`'\"'
+
+(
+    echo '#!/bin/bash'
+    echo '#SBATCH -J osgvo-pilot'
+    echo '#SBATCH -o osgvo-pilot/%j.out'
+    echo '#SBATCH -e osgvo-pilot/%j.err'
+    echo '#SBATCH -p '${QUEUE}
+    echo '#SBATCH -N 1'
+    echo '#SBATCH -n 1'
+    echo '#SBATCH -t '${TIME}
+    echo
+
+    echo 'export ANNEX_NAME="'${ANNEXNAME}'"'
+    echo 'export TOKEN=`cat ~/token.txt`'
+    echo 'export GLIDEIN_Start_Extra="'${STARTEXTRA}'"'
+
+    cat - <<EOF
+export GLIDEIN_Site="TACC"
+export GLIDEIN_ResourceName="Stampede2"
+export OSG_SQUID_LOCAITON=""
+
+module load tacc-singularity
+
+singularity run --bind /cvmfs:/cvmfs docker://opensciencegrid/osgvo-docker-pilot:latest
+EOF
+) > ${TARGET}
+
+chmod 600 ${TARGET}
+
+echo "SLURM script generated.  Perform the following steps to use it."
+echo "    (1) Copy '${TARGET}' to a Stampede2 login node."
+echo "    (2) Copy your OSG Connect token (usually '~/token.txt') to '~/token.txt' on a Stampede2 login node."
+echo "    (3) Create a directory named 'osgvo-pilot' in the directory to which you copied '${TARGET}'."
+echo "    (4) Run 'sbatch ${TARGET}'."
+exit 0

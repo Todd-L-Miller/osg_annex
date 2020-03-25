@@ -1,0 +1,3 @@
+#!/bin/bash
+export _CONDOR_SEC_PASSWORD_FILE=~/token.txt
+exec condor_off -annex "$*"
