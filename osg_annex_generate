@@ -1,11 +1,11 @@
 #!/bin/bash
 
+# This should be user-selectable.
+TIME="01:00:00"
+
 # The queue will need to change to access all of Stampede2's resources,
 # which means the user will want to change the annex name, as well.
 QUEUE="normal"
-
-# This should be user-selectable.
-TIME="01:00:00"
 
 # This should be user-selectable.
 ANNEXNAME=`whoami`'@Stampede2-'${QUEUE}
@@ -20,6 +20,7 @@ STARTEXTRA='Owner == \"'`whoami`'\"'
 
 (
     echo '#!/bin/bash'
+    echo
     echo '#SBATCH -J osgvo-pilot'
     echo '#SBATCH -o osgvo-pilot/%j.out'
     echo '#SBATCH -e osgvo-pilot/%j.err'
@@ -32,11 +33,12 @@ STARTEXTRA='Owner == \"'`whoami`'\"'
     echo 'export ANNEX_NAME="'${ANNEXNAME}'"'
     echo 'export TOKEN=`cat ~/token.txt`'
     echo 'export GLIDEIN_Start_Extra="'${STARTEXTRA}'"'
+    echo
 
     cat - <<EOF
 export GLIDEIN_Site="TACC"
 export GLIDEIN_ResourceName="Stampede2"
-export OSG_SQUID_LOCAITON=""
+export OSG_SQUID_LOCATION=""
 
 module load tacc-singularity
 
