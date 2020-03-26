@@ -3,6 +3,8 @@
 import os
 import sys
 import getpass
+import argparse
+import re
 
 queueName = "normal"
 timeString = "01:00:00"
@@ -10,6 +12,33 @@ userName = getpass.getuser()
 targetName = "stampede2-{0}.slurm".format(queueName)
 annexName = "{0}@Stampede2-{1}".format(userName, queueName)
 startExtra = 'Owner == \\"{0}\\"'.format(userName)
+
+def verifyDuration(string):
+	hhmmss = re.compile('^\d\d\:\d\d\:\d\d$')
+	return hhmmss.match(string) is not None
+
+parser = argparse.ArgumentParser(description="Generate a SLURM submit script which runs a pilot on Stampedede2.")
+parser.add_argument("--queue",
+	default=queueName,
+	help="Specify the SLURM queue (partition); default {0}.".format(queueName))
+parser.add_argument("--duration",
+	default=timeString,
+	help="Use hh:mmm:sss to specify the duration; default {0}.".format(timeString))
+parser.add_argument("--target",
+	default=targetName,
+	help="Generate the SLURM script in this file; default {0}.".format(targetName))
+parser.add_argument("--name",
+	default=annexName,
+	help="The annex name; default {0}.".format(annexName))
+args = parser.parse_args()
+
+queueName = args.queue
+if verifyDuration(args.duration):
+	timeString = args.duration
+else:
+	sys.exit("Duration '{0}' not in hh:mm:ss format, aborting.".format(args.duration))
+targetName = args.target
+annexName = args.name
 
 header = '''
 #SBATCH -J osgvo-pilot
