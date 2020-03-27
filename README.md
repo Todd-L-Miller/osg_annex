@@ -40,13 +40,15 @@ default name for the annex (*user-name*@Stampede2-normal) includes the name of t
 the default name for the generated file (stampede2-normal.slurm) includes the queue name; use the
 `--target` option to change it.
 
+At the moment, the SLURM script requests a single node.
+
 # Detailed Instructions
 These instructions assume you have an [OSG Connect](https://osgconnect.net) account and an
 [XSEDE User Portal](https://portal.xsede.org) account.
 
 You will need to have contacted an OSG administrator and obtained a token to allow your annexes
 to join the OSG pool.  The following instructions assume that the token is in the file
-`~/token.txt` ast OSG Connect.
+`~/token.txt` at OSG Connect.
 
 The following instructions assume that your user name at the XSEDE User Portal is *xsede-sicilian* and
 *osg-sicilian* at OSG Connect.
