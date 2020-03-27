@@ -30,6 +30,14 @@ parser.add_argument("--target",
 parser.add_argument("--name",
 	default=annexName,
 	help="The annex name; default {0}.".format(annexName))
+
+parser.add_argument("-N", "--nodes", default=1,
+	help="The number of nodes to request, default 1.")
+parser.add_argument("-n", "--ntasks", default=1,
+	help="The number of tasks, default 1.")
+parser.add_argument("-c", "--cpus-per-task", default=1,
+	help="The number of CPUs per task, default 1.")
+
 args = parser.parse_args()
 
 queueName = args.queue
@@ -60,8 +68,9 @@ with open(targetName, 'w') as targetFile:
 	print('#!/bin/bash', file=targetFile)
 	targetFile.write(header)
 	print('#SBATCH -p {0}'.format(queueName), file=targetFile)
-	print('#SBATCH -N 1', file=targetFile)
-	print('#SBATCH -n 1', file=targetFile)
+	print('#SBATCH --nodes {0}'.format(args.nodes), file=targetFile)
+	print('#SBATCH --ntasks {0}'.format(args.ntasks), file=targetFile)
+	print('#SBATCH --cpus-per-task {0}'.format(args.cpus_per_task), file=targetFile)
 	print('#SBATCH -t {0}'.format(timeString), file=targetFile)
 	print('', file=targetFile)
 	print('export ANNEX_NAME="{0}"'.format(annexName), file=targetFile)
