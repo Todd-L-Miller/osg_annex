@@ -89,7 +89,7 @@ going.)
 
 ## Monitoring Annexes
 1.  In the OSG Connect terminal,
-	1.  run `osg_annex_status osg-sicilian@stampede2-normal` to see if your resources have joined the
+	1.  run `osg_annex_status osg-sicilian@Stampede2-normal` to see if your resources have joined the
 	    pool; it might take a while.  If you elected to watch the HTCondor logs, you're waiting for
 		a line like
 		> 03/27/20 01:48:17 Setting ready state 'Ready' for STARTD
@@ -98,7 +98,7 @@ going.)
 It might take a while for HTCondor to schedule jobs to run on your annex.  (By default, the annex is
 configured to run only your jobs.)  If your jobs won't run on the other resources available to OSG, you
 can require that they run on a particular annex by using the **requirements** command in the submit file,
-specifically: `requirements = AnnexName == "osg-sicilian@stampede2-normal"`.
+specifically: `requirements = AnnexName == "osg-sicilian@Stampede2-normal"`.
 
 ## Shutting Annexes Off
 1.  In the OSG Connect terminal,
