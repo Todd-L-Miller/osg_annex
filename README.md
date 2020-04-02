@@ -31,7 +31,7 @@ You may append arguments for *condor_off* (see the man page) after the *annex-na
 Run `osg_annex_generate` to create a SLURM script which annexes (part of) an XSEDE resource.  (For now,
 you'll have to copy the script to Stampede2 (and perform a few other steps) manually.)  Each time you
 submit the script there, it will add more resources to the same annex.  By default, the max runtime of
-the SLURM job is one hour.  Use the `--duration` command-line argument to specify, as *hh::mm::ss*,
+the SLURM job is one hour.  Use the `--duration` command-line argument to specify, as *hh:mm:ss*,
 your preferred duration.
 
 The default queue (partition) is `normal`; use the command-line option `--queue` to change it.  The
@@ -40,7 +40,8 @@ default name for the annex (*user-name*@Stampede2-normal) includes the name of t
 the default name for the generated file (stampede2-normal.slurm) includes the queue name; use the
 `--target` option to change it.
 
-At the moment, the SLURM script requests a single node.
+By default, the SLURM script requests one CPU for one task on one node.  Specify `--nodes`,
+`--ntasks`, and/or `--cpus-per-task` to change the corresponding numbers.  Presently, these numbers aren't passed along to HTCondor, so it will over-report available resources.
 
 # Detailed Instructions
 These instructions assume you have an [OSG Connect](https://osgconnect.net) account and an
