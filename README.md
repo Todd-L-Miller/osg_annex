@@ -67,13 +67,13 @@ The following instructions assume that your user name at the XSEDE User Portal i
     portal (login.xsede.org) in the other.
 1.  In that terminal,
 	1.  copy the SLURM script and the token to Stampede2:\
-	    `gsiscp stampede2-normal.slurm ~/token.txt stampede2`
+	    `gsiscp stampede2-normal.slurm token.txt stampede2:~`
 	1.  log into Stampede2: `gsissh stampede2`
-	1.  create a directory that the SLURM script will need: `mkdir ~/osvo-pilot`
+	1.  create a directory that the SLURM script will need: `mkdir ~/osgvo-pilot`
 
 ## Annexing Resources
 (These instructions assume you have two terminal windows open, one logged into OSG Connect, and the
-other logged into login.xsede.org; if you just finished the first-time set-up instructions, just keep
+other logged into Stampede2; if you just finished the first-time set-up instructions, just keep
 going.)
 
 1.  In the login.xsede.org terminal,
